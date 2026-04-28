@@ -278,6 +278,15 @@
     </div>
 
     <div class="container text-center my-3 action-bar">
+        <div class="mb-3">
+            <input
+                type="password"
+                id="aiTokenField"
+                class="form-control"
+                placeholder="Optional: Hugging Face token for cloud AI improve (open-source Qwen2.5)"
+            />
+            <small class="text-muted">Cloud model API: Hugging Face Inference (Qwen/Qwen2.5-7B-Instruct).</small>
+        </div>
         <button type="button" onclick="improveWithAI()" class="btn btn-outline-light btn-lg me-2">✨ AI Improve Content</button>
         <button style="margin-bottom: 2rem;" onclick="generateCV()" class="btn btn-primary btn-lg">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-heading" viewBox="0 0 16 16">
