@@ -102,7 +102,7 @@ function generateCV(){
    document.getElementById("lkT").innerHTML =  document.getElementById("lkField").value;
    document.getElementById("ttT").innerHTML =  document.getElementById("ttField").value;
    document.getElementById("wbT").innerHTML =  document.getElementById("wbField").value;
-   document.getElementById("gtT").innerHTML =  document.getElementById("wbField").value;
+   document.getElementById("gtT").innerHTML =  document.getElementById("gtField").value;
    document.getElementById("pfT").innerHTML =  document.getElementById("pfField").value;
    document.getElementById("psT").innerHTML =  document.getElementById("psField").value;
 
