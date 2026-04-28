@@ -1,0 +1,12 @@
+{
+  "name": "resume_builder-js",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-assisted resume builder for concise CV generation",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "npx serve ."
+  }
+}

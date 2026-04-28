@@ -1,210 +1,183 @@
-// alert("preview")
+function createDynamicField(containerId, buttonId, className, rows = 2) {
+  const newNode = document.createElement('textarea');
+  newNode.classList.add('form-control', className, 'mt-2');
+  newNode.setAttribute('placeholder', 'enter here');
+  newNode.setAttribute('rows', rows);
 
-                      // WORK EXPERIENCE FIELD
-function addNewWeField(){
-// console.log("mmmmmmm");
-let newNode=document.createElement('textarea');
-newNode.classList.add('form-control');
-newNode.classList.add ('weField');
-newNode.classList.add ("mt-2");
-
-newNode.setAttribute("placeholder" , "enter here");
-newNode.setAttribute("rows" , 2);
-
-let weOb = document.getElementById('we');
-let weAddButtonOb = document.getElementById('weAddButton');
-
-weOb.insertBefore(newNode,weAddButtonOb);
+  const container = document.getElementById(containerId);
+  const addButton = document.getElementById(buttonId);
+  container.insertBefore(newNode, addButton);
 }
 
-                       //  EDUCATION FIELD
-function addNewEduField(){
-    let newNode=document.createElement('textarea');
-newNode.classList.add('form-control');
-newNode.classList.add ('eduField');
-newNode.classList.add ("mt-2");
-newNode.setAttribute("placeholder" , "enter here");
-newNode.setAttribute("rows" , 2);
-
-let eduOb = document.getElementById('edu');
-let eduAddButtonOb = document.getElementById('eduAddButton');
-
-eduOb.insertBefore(newNode,eduAddButtonOb);
-
+function addNewWeField() {
+  createDynamicField('we', 'weAddButton', 'weField', 2);
 }
 
-
-                       // projects
-function addNewPjField(){
-    let newNode=document.createElement('textarea');
-newNode.classList.add('form-control');
-newNode.classList.add ('pjField');
-newNode.classList.add ("mt-2");
-newNode.setAttribute("placeholder" , "enter here");
-newNode.setAttribute("rows" , 2);
-
-let pjOb = document.getElementById('pj');
-let pjAddButtonOb = document.getElementById('pjAddButton');
-
-pjOb.insertBefore(newNode,pjAddButtonOb);
+function addNewEduField() {
+  createDynamicField('edu', 'eduAddButton', 'eduField', 2);
 }
 
-
-                         // skills
-function addNewSkField(){
-    let newNode=document.createElement('textarea');
-newNode.classList.add('form-control');
-newNode.classList.add ('skField');
-newNode.classList.add ("mt-2");
-newNode.setAttribute("placeholder" , "enter here");
-newNode.setAttribute("rows" , 1);
-
-let skOb = document.getElementById('sk');
-let skAddButtonOb = document.getElementById('skAddButton');
-
-skOb.insertBefore(newNode,skAddButtonOb);
+function addNewPjField() {
+  createDynamicField('pj', 'pjAddButton', 'pjField', 2);
 }
 
-                            // languages
-function addNewlgField(){
-    let newNode=document.createElement('textarea');
-newNode.classList.add('form-control');
-newNode.classList.add ('lgField');
-newNode.classList.add ("mt-2");
-newNode.setAttribute("placeholder" , "enter here");
-newNode.setAttribute("rows" , 1);
-
-let lgOb = document.getElementById('lg');
-let lgAddButtonOb = document.getElementById('lgAddButton');
-
-lgOb.insertBefore(newNode,lgAddButtonOb);
+function addNewSkField() {
+  createDynamicField('sk', 'skAddButton', 'skField', 1);
 }
 
-///////////////////////////////////////
-document.getElementById("download").style.display = "none";
+function addNewlgField() {
+  createDynamicField('lg', 'lgAddButton', 'lgField', 1);
+}
 
+document.getElementById('download').style.display = 'none';
 
+function sanitize(value) {
+  return (value || '').trim();
+}
 
-                      // generating cv function
-function generateCV(){
-    // console.log("generating....");
+function condenseText(text, maxLength = 130) {
+  if (!text) return '';
 
-    let nameField = document.getElementById("nameField").value;
-    let nameT = document.getElementById("nameT");
-   nameT.innerHTML = nameField;
+  const replacements = [
+    [/responsible for/gi, 'led'],
+    [/worked on/gi, 'built'],
+    [/in order to/gi, 'to'],
+    [/utilized/gi, 'used'],
+    [/a lot of/gi, 'many'],
+    [/very /gi, ''],
+    [/successfully/gi, ''],
+    [/highly /gi, '']
+  ];
 
-   document.getElementById("addressT").innerHTML =  document.getElementById("addressField").value;
+  let output = text.replace(/\s+/g, ' ').trim();
+  replacements.forEach(([from, to]) => {
+    output = output.replace(from, to);
+  });
 
-   document.getElementById("contactT").innerHTML =  document.getElementById("contactField").value;
-
-   document.getElementById("emailT").innerHTML =  document.getElementById("emailField").value;
-
-   document.getElementById("lkT").innerHTML =  document.getElementById("lkField").value;
-   document.getElementById("ttT").innerHTML =  document.getElementById("ttField").value;
-   document.getElementById("wbT").innerHTML =  document.getElementById("wbField").value;
-   document.getElementById("gtT").innerHTML =  document.getElementById("wbField").value;
-   document.getElementById("pfT").innerHTML =  document.getElementById("pfField").value;
-   document.getElementById("psT").innerHTML =  document.getElementById("psField").value;
-
-
-
-                          //  work experience
-  let wes = document.getElementsByClassName("weField");
-  let str = '';
-  for(let e of wes){
-      str= str + `<div class="education_content">>  <div class="education_time" id="time">
-      <span class="education_rounder"></span>
-      <span class="education_line" ></span>
-  </div>${e.value} </div>`;
+  output = output.replace(/\s+([,.!?;:])/g, '$1');
+  if (output.length > maxLength) {
+    output = `${output.slice(0, maxLength - 1).trim()}…`;
   }
-  document.getElementById("weT").innerHTML = str;
 
-                                 //eductaion string
-  let edus = document.getElementsByClassName("eduField");
-  let str1 = '';
-  for(let e of edus){
-      str1= str1 + `<div class="education_content"> <div class="education_time" id="time">
-      <span class="education_rounder"></span>
-      <span class="education_line" ></span>
-  </div> ${e.value} </div>`;
+  return output;
+}
+
+function optimizeCollection(className, maxLength) {
+  const nodes = document.getElementsByClassName(className);
+  for (const node of nodes) {
+    node.value = condenseText(node.value, maxLength);
   }
-  document.getElementById("eduT").innerHTML = str1;
-  
+}
 
-                                      //projects string
-  let pjs = document.getElementsByClassName("pjField");
-  let str2 = '';
-  for(let e of pjs){
-      str2= str2 + `<div class="education_content"> <div class="education_time" id="time">
-      <span class="education_rounder"></span>
-      <span class="education_line" ></span>
-  </div> ${e.value} </div>`;
+function improveWithAI() {
+  const summary = document.getElementById('psField');
+  const profession = sanitize(document.getElementById('pfField').value);
+
+  optimizeCollection('weField', 140);
+  optimizeCollection('eduField', 120);
+  optimizeCollection('pjField', 130);
+  optimizeCollection('skField', 45);
+  optimizeCollection('lgField', 25);
+
+  if (summary.value.trim()) {
+    summary.value = condenseText(summary.value, 220);
+  } else {
+    const skills = Array.from(document.getElementsByClassName('skField'))
+      .map((node) => sanitize(node.value))
+      .filter(Boolean)
+      .slice(0, 3)
+      .join(', ');
+
+    summary.value = condenseText(
+      `Results-focused ${profession || 'professional'} delivering concise, measurable impact${skills ? ` with strengths in ${skills}` : ''}.`,
+      220
+    );
   }
-  document.getElementById("pjT").innerHTML = str2;
 
+  alert('✨ AI optimization complete. Your CV content is now more concise.');
+}
 
-                                             // skills
-  let sks = document.getElementsByClassName("skField");
-  let str3 = '';
-  for(let e of sks){
-      str3= str3 + `<li> <span class="skills_circle" id="c"></span>${e.value} </li>`;
+function buildTimelineHTML(values) {
+  return values
+    .filter(Boolean)
+    .map(
+      (value) => `<div class="education_content"><div class="education_time" id="time">
+        <span class="education_rounder"></span>
+        <span class="education_line"></span>
+      </div>${value}</div>`
+    )
+    .join('');
+}
+
+function generateCV() {
+  document.getElementById('nameT').textContent = sanitize(document.getElementById('nameField').value) || 'Your Name';
+  document.getElementById('addressT').textContent = sanitize(document.getElementById('addressField').value);
+  document.getElementById('contactT').textContent = sanitize(document.getElementById('contactField').value);
+  document.getElementById('emailT').textContent = sanitize(document.getElementById('emailField').value);
+  document.getElementById('lkT').textContent = sanitize(document.getElementById('lkField').value);
+  document.getElementById('ttT').textContent = sanitize(document.getElementById('ttField').value);
+  document.getElementById('wbT').textContent = sanitize(document.getElementById('wbField').value);
+  document.getElementById('gtT').textContent = sanitize(document.getElementById('gtField').value);
+  document.getElementById('pfT').textContent = sanitize(document.getElementById('pfField').value);
+  document.getElementById('psT').textContent = sanitize(document.getElementById('psField').value);
+
+  const builderName = sanitize(document.getElementById('builderField').value) || 'Your Name';
+  document.getElementById('builderCredit').textContent = builderName;
+
+  const wes = Array.from(document.getElementsByClassName('weField')).map((e) => condenseText(sanitize(e.value), 140));
+  document.getElementById('weT').innerHTML = buildTimelineHTML(wes);
+
+  const edus = Array.from(document.getElementsByClassName('eduField')).map((e) => condenseText(sanitize(e.value), 120));
+  document.getElementById('eduT').innerHTML = buildTimelineHTML(edus);
+
+  const pjs = Array.from(document.getElementsByClassName('pjField')).map((e) => condenseText(sanitize(e.value), 130));
+  document.getElementById('pjT').innerHTML = buildTimelineHTML(pjs);
+
+  const sks = Array.from(document.getElementsByClassName('skField'))
+    .map((e) => condenseText(sanitize(e.value), 45))
+    .filter(Boolean)
+    .map((value) => `<li><span class="skills_circle" id="c"></span>${value}</li>`)
+    .join('');
+  document.getElementById('skT').innerHTML = sks;
+
+  const lgs = Array.from(document.getElementsByClassName('lgField'))
+    .map((e) => condenseText(sanitize(e.value), 25))
+    .filter(Boolean)
+    .map((value) => `<li>${value}</li>`)
+    .join('');
+  document.getElementById('lgT').innerHTML = lgs;
+
+  const file = document.getElementById('imageField').files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      document.getElementById('imageT').src = reader.result;
+    };
   }
-  document.getElementById("skT").innerHTML = str3;
 
-
-                                      // languages
-let lgs = document.getElementsByClassName("lgField");
-let str4 = '';
-for(let e of lgs){
-    str4= str4 + `<li> ${e.value} </li>`;
-}
-document.getElementById("lgT").innerHTML = str4;
-  //image field
-let file=document.getElementById("imageField").files[0]; 
-  console.log(file);
-  let reader=new FileReader();
-reader.readAsDataURL(file);
-console.log(reader.result);
-
-                                        //set image to template
-
-reader.onloadend =function(){
-    document.getElementById("imageT").src= reader.result; 
+  document.getElementById('goback').style.display = 'block';
+  document.getElementById('download').style.display = 'block';
+  document.getElementById('cv-form').style.display = 'none';
+  document.getElementById('cv-template').style.display = 'grid';
 }
 
-
-document.getElementById("goback").style.display = "block";
-document.getElementById("download").style.display = "block";
- document.getElementById("cv-form").style.display = "none";
-  document.getElementById("cv-template").style.display = "grid";
+function formCV() {
+  document.getElementById('goback').style.display = 'none';
+  document.getElementById('cv-form').style.display = 'block';
+  document.getElementById('cv-template').style.display = 'none';
+  document.getElementById('download').style.display = 'none';
 }
 
-                                              // goback
-function formCV(){
-    document.getElementById("goback").style.display = "none";
-    document.getElementById("cv-form").style.display = "block";
-   document.getElementById("cv-template").style.display = "none";
+const areaCv = document.getElementById('cv-template');
+const opt = {
+  margin: 0,
+  filename: 'myResume.pdf',
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 4 },
+  jsPDF: { format: 'a4', orientation: 'portrait' }
+};
 
-  document.getElementById("download").style.display = "none";
+function printCV() {
+  html2pdf(areaCv, opt);
 }
-
-
-const areaCv = document.getElementById("cv-template");
-    let resumeButton =document.getElementById("download");
-
-    let opt = {
-        margin:       0,
-        filename:     'myResume.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 4 },
-        jsPDF:        { format: 'a4', orientation: 'portrait' }
-      };
-
-function printCV(){
-    html2pdf(areaCv,opt)
-}
-resumeButton.addEventListener('click', ()=>{
-
-    generateResume()
-})
- 
