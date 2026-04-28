@@ -25,9 +25,31 @@ function addNewSkField() {
   createDynamicField('sk', 'skAddButton', 'skField', 1);
 }
 
-function addNewlgField() {
-  createDynamicField('lg', 'lgAddButton', 'lgField', 1);
-}
+///////////////////////////////////////
+document.getElementById("download").style.display = "none";
+
+
+
+                      // generating cv function
+function generateCV(){
+    // console.log("generating....");
+
+    let nameField = document.getElementById("nameField").value;
+    let nameT = document.getElementById("nameT");
+   nameT.innerHTML = nameField;
+
+   document.getElementById("addressT").innerHTML =  document.getElementById("addressField").value;
+
+   document.getElementById("contactT").innerHTML =  document.getElementById("contactField").value;
+
+   document.getElementById("emailT").innerHTML =  document.getElementById("emailField").value;
+
+   document.getElementById("lkT").innerHTML =  document.getElementById("lkField").value;
+   document.getElementById("ttT").innerHTML =  document.getElementById("ttField").value;
+   document.getElementById("wbT").innerHTML =  document.getElementById("wbField").value;
+   document.getElementById("gtT").innerHTML =  document.getElementById("gtField").value;
+   document.getElementById("pfT").innerHTML =  document.getElementById("pfField").value;
+   document.getElementById("psT").innerHTML =  document.getElementById("psField").value;
 
 document.getElementById('download').style.display = 'none';
 
